@@ -1,0 +1,57 @@
+.pokecardsdiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+
+}
+.heading{
+    width: 100%;
+}
+
+.searchbar{
+    
+    border-style: none;
+    width: 50%;
+    height: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+.generations{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.gens{
+    list-style: none;
+    padding: 10px;
+}
+
+
+.gens button{
+    border: none;
+    background: white;
+    color: black;
+    border-radius: 5px;
+    padding: 10px;
+    outline: 0;
+}
+.gens :hover{
+    cursor:pointer;
+    border:1px solid gold;
+}
+
+.pokecards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  width:100%;
+}
+
+
+
