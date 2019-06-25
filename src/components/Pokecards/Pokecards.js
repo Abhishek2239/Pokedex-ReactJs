@@ -74,6 +74,7 @@ export default class Pokecards extends Component {
   }
 
   searchInputhandler=(searchInput)=>{
+    this.setState({showgens:false})
     this.setState({searchItem:searchInput})
   }
 

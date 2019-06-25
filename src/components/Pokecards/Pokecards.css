@@ -38,6 +38,10 @@
     border-radius: 5px;
     padding: 10px;
     outline: 0;
+    
+}
+.active{
+    background-color:red;
 }
 .gens :hover{
     cursor:pointer;
@@ -51,6 +55,7 @@
   align-items: center;
   text-align: center;
   width:90%;
+  margin: auto;
 }
 
 

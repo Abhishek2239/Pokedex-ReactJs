@@ -2,7 +2,13 @@
     border:1px solid gray;    
     margin: 10px 10px 10px 10px;
     background: white;
-    box-shadow: 0 8px 6px -6px black;
+    /* box-shadow: 0 8px 6px -6px black; */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    width: 300px;
+    }
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    cursor: pointer;
     }
 
 .ability{
