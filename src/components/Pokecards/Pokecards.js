@@ -1,151 +1,154 @@
-import React,{Component} from 'react';
+import React, { Component } from 'react';
 import Pokecard from './Pokecard/Pokecard';
 import './Pokecards.css';
-
-
 
 
 export default class Pokecards extends Component {
 
   state = {
-    data : [],
-    showgens : false,
-    gentoshow:[],
-    searchItem:'',
-    
+    data: [],
   }
- 
-  componentWillMount(){
+
+  componentWillMount() {
     const csvFilePath = require('../../assets/poke.csv');
     const Papa = require("papaparse/papaparse.min.js");
     Papa.parse(csvFilePath, {
       header: true,
       download: true,
       skipEmptyLines: true,
-      complete: (result)=>this.updateData(result)
+      complete: (result) => this.setState({ data: result.data })
     })
   }
 
-  updateData = (result) => {
-    this.setState({data:result.data})
-  }
-  
-  showgen = (num) => {
-      this.setState({showgens:true})
-      this.setState({searchItem:''})
-      let tempar = []
-      if(num===1){
-        tempar = []
-        for(let i=0;i<151;i++){
-        tempar.push(this.state.data[i])
-        }
-        this.setState({gentoshow:tempar})}
-      else if(num===2){
-        tempar = []
-        for(let i=151;i<250;i++){
-        tempar.push(this.state.data[i])        
-        }this.setState({gentoshow:tempar})}
-      else if(num===3){
-        tempar = []
-        for(let i=251;i<385;i++){
-        tempar.push(this.state.data[i])
-        }this.setState({gentoshow:tempar})}
-      else if(num===4){
-        tempar = []
-        for(let i=386;i<492;i++){
-        tempar.push(this.state.data[i])
-        }this.setState({gentoshow:tempar})}
-      else if(num===5){
-        tempar = []
-        for(let i=493;i<648;i++){
-        tempar.push(this.state.data[i])
-        }this.setState({gentoshow:tempar})}
-      else if(num===6){
-        tempar = []
-        for(let i=649;i<720;i++){
-        tempar.push(this.state.data[i])
-        }this.setState({gentoshow:tempar})}
-      else if(num===7){
-        tempar = []
-        for(let i=721;i<808;i++){
-        tempar.push(this.state.data[i])
-        }this.setState({gentoshow:tempar})}
-      else this.setState({showgens:false})
+  // componentDidUpdate(prevProps, prevState) {
+  //   Object.entries(this.props).forEach(([key, val]) =>
+  //     prevProps[key] !== val && console.log(`Prop '${key}' changed`)
+  //   );
+  //   Object.entries(this.state).forEach(([key, val]) =>
+  //     prevState[key] !== val && console.log(`State '${key}' changed`)
+  //   );
+  // }
+
+  shouldComponentUpdate(nextState, nextProps) {
+    return this.state !== nextState || this.props !== nextProps
   }
 
-  searchInputhandler=(searchInput)=>{
-    this.setState({showgens:false})
-    this.setState({searchItem:searchInput})
-  }
-
-
-   
-  render(){
-
-  let searchedItems=''
-  let pokemons = []
-  if(this.state.showgens){
-    searchedItems = this.state.gentoshow.filter(
-      (item) => {
-        return item.Name.toLowerCase().indexOf(this.state.searchItem.toLowerCase()) !== -1
-        || item.Abilities.toLowerCase().indexOf(this.state.searchItem.toLowerCase()) !== -1
-        || item.ID.indexOf(this.state.searchItem) !== -1;
-      }
-    );
-
-    pokemons = (searchedItems.map((item)=>{
-      return <Pokecard
-          imgSrc = {item.ImgSrc}
-          name = {item.Name}
-          id = {item.ID}
-          key = {item.ID}
-          abilities =  {item.Abilities}  
-          />}))
-  }
-  else {
-    searchedItems = this.state.data.filter(
-      (item) => {
-        return item.Name.toLowerCase().indexOf(this.state.searchItem.toLowerCase()) !== -1
-        || item.Abilities.toLowerCase().indexOf(this.state.searchItem.toLowerCase()) !== -1
-        || item.ID.indexOf(this.state.searchItem) !== -1 }
-    );
-
-    pokemons = (searchedItems.map((item)=>{
-      return <Pokecard
-          imgSrc = {item.ImgSrc}
-          name = {item.Name}
-          id = {item.ID}
-          key = {item.ID}
-          abilities =  {item.Abilities}  
-          />}))
-  }
-
-
+  render() {
     
-  return (
-    <div className="pokecardsdiv">
-      <input className="searchbar"
-        value={this.state.searchItem} 
-        onChange={(event)=>this.searchInputhandler(event.target.value)}
-        type="text" placeholder="Search by Name,ID,Type..."/>
-      <h3 className="heading">Pokemon Generations</h3>
-      <div className="generations">
-        <li className="gens" onClick={()=>this.showgen(1)}><button>I</button></li>
-        <li className="gens" onClick={()=>this.showgen(2)}><button>II</button></li>
-        <li className="gens" onClick={()=>this.showgen(3)}><button>III</button></li>
-        <li className="gens" onClick={()=>this.showgen(4)}><button>IV</button></li>
-        <li className="gens" onClick={()=>this.showgen(5)}><button>V</button></li>
-        <li className="gens" onClick={()=>this.showgen(6)}><button>VI</button></li>
-        <li className="gens" onClick={()=>this.showgen(7)}><button>VII</button></li>
-        <li className="gens" onClick={()=>this.showgen(8)}><button>All</button></li>
-      </div>
-      
-      <div className="pokecards">
-             {pokemons}        
-      </div>
-          
-    </div>
-  );
-}
+    let searchedItems = ''
+    let searchedType = ''
+    let pokemons = []
+    let pokeDisplay = []
+    let tempArray = this.state.data
+
+    //slicing per generations
+    if (this.props.gen === 1) {
+      tempArray = tempArray.slice(0, 151)
+    }
+    else if (this.props.gen === 2) {
+      tempArray = tempArray.slice(151, 251)
+    }
+    else if (this.props.gen === 3) {
+      tempArray = tempArray.slice(251, 386)
+    }
+    else if (this.props.gen === 4) {
+      tempArray = tempArray.slice(386, 493)
+    }
+    else if (this.props.gen === 5) {
+      tempArray = tempArray.slice(493, 649)
+    }
+    else if (this.props.gen === 6) {
+      tempArray = tempArray.slice(649, 721)
+    }
+    else if (this.props.gen === 7) {
+      tempArray = tempArray.slice(721, 809)
+    }
+
+
+    if (this.props.showGen) {     
+
+      pokemons = tempArray.map((item) => {
+        return <Pokecard
+          imgSrc={item.ImgSrc}
+          name={item.Name}
+          id={item.ID}
+          key={item.ID}
+          abilities={item.Abilities}
+        />
+      })
+  }
+
+    else if (this.props.showType) {
+
+      searchedType = this.state.data.filter(
+        (item) => {
+          return item.Abilities.toLowerCase().indexOf(this.props.type.toLowerCase()) !== -1;
+        }
+      );
+      pokemons = searchedType.map((item) => {
+        return <Pokecard
+          imgSrc={item.ImgSrc}
+          name={item.Name}
+          id={item.ID}
+          key={item.ID}
+          abilities={item.Abilities}
+        />
+      })
+    }
+    else if(this.props.searchItem!==''){
+      searchedItems = this.state.data.filter(
+        (item) => {
+          return item.Name.toLowerCase().indexOf(this.props.searchItem.toLowerCase()) !== -1
+            || item.Abilities.toLowerCase().indexOf(this.props.searchItem.toLowerCase()) !== -1
+            || item.ID.indexOf(this.state.searchItem) !== -1
+        }
+      );
+      pokemons = (searchedItems.map((item) => {
+        return <Pokecard
+          imgSrc={item.ImgSrc}
+          name={item.Name}
+          id={item.ID}
+          key={item.ID}
+          abilities={item.Abilities}
+        />
+      }))
+    }
+    else {
+      pokemons = (this.state.data.map((item) => {
+        return <Pokecard
+          imgSrc={item.ImgSrc}
+          name={item.Name}
+          id={item.ID}
+          key={item.ID}
+          abilities={item.Abilities}
+        />
+      }))
+    }
+
+    //page wise showing result page1=1:50
+
+    for (let ind = this.props.start; ind < this.props.end; ind++) {
+      pokeDisplay.push(pokemons[ind])
+    }
+
+    this.props.setNoOfPosts(this.props.showGen ? tempArray.length
+      : this.props.showType ? searchedType.length
+        : this.props.searchItem !== '' ? searchedItems.length : 809)
+
+    return (
+      <>
+        <div className="pokecardsdiv">
+
+          {this.props.children}
+
+          <div className="pokecards">
+            {pokeDisplay}
+          </div>
+
+        </div>
+      </>
+
+    );
+  }
 }
 
