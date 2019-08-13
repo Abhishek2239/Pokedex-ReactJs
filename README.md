@@ -1,7 +1,7 @@
-#This project was made by Reactjs.
+This project was made by Reactjs.
 
 1.You can search pokemon by name, ID, type.
-![poke](public/poke.png)
+!(public/poke.png)
 
 2.Cliking on the pokemon card will play it's sound.
 3.You can filter by generation or type from the sidebar .
