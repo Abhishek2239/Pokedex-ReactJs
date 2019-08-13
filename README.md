@@ -1,4 +1,4 @@
-This project was made by Reactjs.
+#This project was made by Reactjs.
 
 1.You can search pokemon by name, ID, type.
 ![poke](public/poke.png)
