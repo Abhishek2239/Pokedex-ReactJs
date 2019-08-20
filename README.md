@@ -1,4 +1,5 @@
 This project was made by Reactjs.
+Data of all pokemons can be accessed on https://github.com/Abhishek2239/Python-WebScrapper
 
 1.You can search pokemon by name, ID, type.
 
