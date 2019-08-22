@@ -8,7 +8,7 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
-  "homepage": "http://pokedex.abhishekcodes.in",
+  "homepage": "https://pokedex.abhishekcodes.in",
   "scripts": {
     "predeploy":"npm run build",
     "start": "react-scripts start",
